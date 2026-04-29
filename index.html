@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SHIKIMORI DRIP PANEL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 107, 157, 0.5);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 26px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Login Form */
+        .login-box {
+            padding: 30px 20px;
+        }
+
+        .login-title {
+            color: #ff6b9d;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 30px;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #ff6b9d;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Main Menu (hidden by default) */
+        .main-menu {
+            display: none;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 107, 157, 0.1);
+            border-bottom: 1px solid rgba(255, 107, 157, 0.2);
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .status-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff6b9d;
+        }
+
+        .menu-section {
+            padding: 16px;
+        }
+
+        .section-title {
+            color: #ff6b9d;
+            font-size: 14px;
+            margin-bottom: 12px;
+            padding-left: 8px;
+            border-left: 3px solid #ff6b9d;
+        }
+
+        .fitur-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .fitur-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+
+        .fitur-card.active {
+            border-color: #ff6b9d;
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        .fitur-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .fitur-name {
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ff6b9d;
+            border: 1px solid #ff6b9d;
+        }
+
+        .config-section {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 16px;
+        }
+
+        .config-content {
+            background: #0a0a0a;
+            border-radius: 12px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 9px;
+            color: #4ade80;
+            max-height: 120px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: rgba(255, 107, 157, 0.2);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: #ff6b9d;
+            font-size: 10px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b9d;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- LOGIN FORM -->
+        <div id="loginContainer">
+            <div class="header">
+                <h1>SHIKIMORI <small>DRIP</small></h1>
+                <p>🔐 PANEL INJECTOR 🔐</p>
+            </div>
+            <div class="login-box">
+                <div class="login-title">MASUKKAN KUNCI AKSES</div>
+                <div class="input-group">
+                    <input type="text" id="passwordInput" placeholder="Kunci Akses" autocomplete="off">
+                </div>
+                <button class="login-btn" id="loginBtn">BUKA PANEL</button>
+                <div class="error-msg" id="errorMsg">❌ KODE SALAH! COBA LAGI</div>
+            </div>
+            <div class="footer">
+                SHIKIMORI 🩷 YANZZ
+            </div>
+        </div>
+
+        <!-- MAIN MENU (HIDDEN AWAL) -->
+        <div id="mainMenu" class="main-menu">
+            <div class="header">
+                <h1>SHIKIMORI <small>DRIP v3.0</small></h1>
+                <p>🔥 FULL FITUR INJECTOR 🔥</p>
+            </div>
+            <div class="status-bar">
+                <div class="status-item"><div class="status-label">STATUS</div><div class="status-value" id="statusText">READY</div></div>
+                <div class="status-item"><div class="status-label">FITUR AKTIF</div><div class="status-value" id="aktifCount">0</div></div>
+                <div class="status-item"><div class="status-label">VERSION</div><div class="status-value">OB50+</div></div>
+            </div>
+            <div class="menu-section">
+                <div class="section-title">✨ FITUR PREMIUM</div>
+                <div class="fitur-grid" id="fiturGrid"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="injectAllBtn">💉 INJECT SEMUA</button>
+                    <button class="btn btn-secondary" id="resetAllBtn">🔄 RESET</button>
+                </div>
+                <div class="config-section">
+                    <div class="config-title">📄 KONFIGURASI ACTIVE</div>
+                    <div class="config-content" id="configContent"></div>
+                    <button class="copy-btn" id="copyConfigBtn">📋 COPY CONFIG</button>
+                </div>
+            </div>
+            <div class="footer">
+                SHIKIMORI 🩷 YANZZ | Overlay Compatible
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toastMsg"></div>
+
+    <script>
+        // ==================== KUNCI AKSES ====================
+        const VALID_KEY = "SHIKIMORI🩷Yanzz";
+
+        // Cek apakah sudah login sebelumnya
+        let isLoggedIn = localStorage.getItem('shikimori_drip_auth');
+        
+        if (isLoggedIn === VALID_KEY) {
+            // Langsung tampilkan menu
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'block';
+            initMainMenu();
+        } else {
+            // Tampilkan form login
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('mainMenu').style.display = 'none';
+            
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                const inputKey = document.getElementById('passwordInput').value.trim();
+                if (inputKey === VALID_KEY) {
+                    localStorage.setItem('shikimori_drip_auth', VALID_KEY);
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('mainMenu').style.display = 'block';
+                    initMainMenu();
+                } else {
+                    document.getElementById('errorMsg').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('errorMsg').style.display = 'none';
+                    }, 2000);
+                }
+            });
+            
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('loginBtn').click();
+                }
+            });
+        }
+
+        // ==================== MAIN MENU FUNCTIONS ====================
+        function initMainMenu() {
+            const fiturs = [
+                { id: "neck_hs", name: "Leher HS", icon: "🎯", active: false },
+                { id: "pov", name: "POV Lebar", icon: "👁️", active: false },
+                { id: "magic_bullet", name: "Magic Bullet", icon: "💫", active: false },
+                { id: "auto_hs", name: "Auto Headshot", icon: "🔥", active: false },
+                { id: "no_recoil", name: "No Recoil", icon: "🛡️", active: false },
+                { id: "instant_lock", name: "Instant Lock", icon: "⚡", active: false },
+                { id: "auto_loot", name: "Auto Loot", icon: "📦", active: false },
+                { id: "wallbang", name: "Wallbang", icon: "🧱", active: false }
+            ];
+
+            // Load saved state
+            const savedState = localStorage.getItem('shikimori_drip_state');
+            if (savedState) {
+                try {
+                    const parsed = JSON.parse(savedState);
+                    fiturs.forEach(f => { if (parsed[f.id] !== undefined) f.active = parsed[f.id]; });
+                } catch(e) {}
+            }
+
+            function generateConfigFile() {
+                let config = "[SHIKIMORI_DRIP_CONFIG]\nversion=3.0\ndevice=Infinix_Smart9\n\n";
+                fiturs.forEach(f => {
+                    config += `[${f.id}]\nenable=${f.active ? 1 : 0}\n`;
+                    if (f.id === "neck_hs") config += "target=neck\nauto_head=1\n";
+                    if (f.id === "magic_bullet") config += "turn_angle=45\nmax_distance=180\n";
+                    if (f.id === "no_recoil") config += "vertical=0\nhorizontal=0\n";
+                    if (f.id === "auto_loot") config += "loot_distance=150\n";
+                    config += "\n";
+                });
+                config += "[GLOBAL_SETTINGS]\ndpi=520\nsensitivity=95\nanti_ban=1\n";
+                return config;
+            }
+
+            function saveConfigToStorage() {
+                const configContent = generateConfigFile();
+                localStorage.setItem('shikimori_drip_config', configContent);
+                document.getElementById('configContent').textContent = configContent;
+                return configContent;
+            }
+
+            function updateActiveCount() {
+                const count = fiturs.filter(f => f.active).length;
+                document.getElementById('aktifCount').textContent = count;
+                document.getElementById('statusText').textContent = count > 0 ? "INJECTED" : "READY";
+            }
+
+            function saveAllState() {
+                const state = {};
+                fiturs.forEach(f => { state[f.id] = f.active; });
+                localStorage.setItem('shikimori_drip_state', JSON.stringify(state));
+                updateActiveCount();
+            }
+
+            function showToast(msg) {
+                const toast = document.getElementById('toastMsg');
+                toast.textContent = msg;
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            }
+
+            async function copyConfig() {
+                const config = localStorage.getItem('shikimori_drip_config') || generateConfigFile();
+                try {
+                    await navigator.clipboard.writeText(config);
+                    showToast("📋 CONFIG TERSALIN!");
+                } catch(err) {
+                    showToast("❌ GAGAL COPY");
+                }
+            }
+
+            function downloadConfig() {
+                const config = localStorage.getItem('shikimori_drip_config') || generateConfigFile();
+                const blob = new Blob([config], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'DripLite_Master.ini';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast("📥 FILE DIDOWNLOAD!");
+            }
+
+            function renderFiturGrid() {
+                const grid = document.getElementById('fiturGrid');
+                grid.innerHTML = '';
+                fiturs.forEach(fitur => {
+                    const card = document.createElement('div');
+                    card.className = `fitur-card ${fitur.active ? 'active' : ''}`;
+                    card.innerHTML = `
+                        <span class="fitur-icon">${fitur.icon}</span>
+                        <div class="fitur-name">${fitur.name}</div>
+                    `;
+                    card.onclick = () => {
+                        fitur.active = !fitur.active;
+                        saveAllState();
+                        renderFiturGrid();
+                        saveConfigToStorage();
+                        showToast(`${fitur.active ? '✅' : '❌'} ${fitur.name} ${fitur.active ? 'AKTIF' : 'NONAKTIF'}`);
+                    };
+                    grid.appendChild(card);
+                });
+            }
+
+            function injectAll() {
+                fiturs.forEach(f => f.active = true);
+                saveAllState();
+                renderFiturGrid();
+                saveConfigToStorage();
+                showToast("💉 SEMUA FITUR DIINJECT!");
+            }
+
+            function resetAll() {
+                fiturs.forEach(f => f.active = false);
+                saveAllState();
+                renderFiturGrid();
+                saveConfigToStorage();
+                showToast("🔄 SEMUA FITUR DIRESET");
+            }
+
+            // Event listeners
+            document.getElementById('injectAllBtn').onclick = injectAll;
+            document.getElementById('resetAllBtn').onclick = resetAll;
+            document.getElementById('copyConfigBtn').onclick = copyConfig;
+
+            // Tambah tombol download
+            const configSection = document.querySelector('.config-section');
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'copy-btn';
+            downloadBtn.style.marginRight = '8px';
+            downloadBtn.textContent = '⬇️ DOWNLOAD .INI';
+            downloadBtn.onclick = downloadConfig;
+            configSection.insertBefore(downloadBtn, document.getElementById('copyConfigBtn'));
+
+            // Initial render
+            renderFiturGrid();
+            saveConfigToStorage();
+            updateActiveCount();
+
+            console.log('🚀 SHIKIMORI DRIP PANEL v3.0 READY');
+        }
+    </script>
+</body>
+</html>
